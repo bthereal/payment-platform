@@ -1,0 +1,14 @@
+[
+  {
+    "id": "dp_orphan",
+    "object": "dispute",
+    "created": "2026-02-05T14:30:00Z",
+    "charge": "ch_missing",
+    "amount": 100,
+    "currency": "gbp",
+    "status": "needs_response",
+    "fee_details": [],
+    "net": -100,
+    "available_on": "2026-02-05"
+  }
+]

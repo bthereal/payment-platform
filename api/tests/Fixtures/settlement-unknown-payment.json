@@ -1,0 +1,12 @@
+[
+  {
+    "id": "po_U1",
+    "object": "payout",
+    "created": "2026-02-06T04:00:00Z",
+    "amount": 500,
+    "currency": "gbp",
+    "status": "paid",
+    "arrival_date": "2026-02-07",
+    "included_balance_transactions": ["ch_does_not_exist"]
+  }
+]

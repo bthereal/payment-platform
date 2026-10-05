@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ruleset name="payments-dashboard">
+    <description>PSR-12 coding standard for the payments dashboard API.</description>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg value="p"/>
+
+    <!-- Warnings (e.g. long Nelmio attribute lines) are still reported but
+         are advisory — only a real error should fail a CI run. -->
+    <config name="ignore_warnings_on_exit" value="1"/>
+
+    <file>src</file>
+    <file>tests</file>
+
+    <rule ref="PSR12"/>
+
+    <!-- PSR-12's 120-char soft limit is fine for code, but several
+         explanatory comments in this codebase run a bit longer for
+         readability — 160 keeps that prose intact without disabling the
+         check entirely. -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="160"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+</ruleset>

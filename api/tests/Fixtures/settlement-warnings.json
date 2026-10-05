@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ch_M1",
+    "object": "charge",
+    "created": "2026-02-01T10:00:00Z",
+    "amount": 1000,
+    "currency": "gbp",
+    "status": "succeeded",
+    "order_ref": "M-1",
+    "fee_details": [
+      { "type": "stripe_fee", "amount": 30 },
+      { "type": "application_fee", "amount": 50 }
+    ],
+    "net": 920,
+    "available_on": "2026-02-05"
+  },
+  {
+    "id": "po_M1",
+    "object": "payout",
+    "created": "2026-02-06T04:00:00Z",
+    "amount": 999,
+    "currency": "gbp",
+    "status": "paid",
+    "arrival_date": "2026-02-07",
+    "included_balance_transactions": ["ch_M1"]
+  },
+  {
+    "id": "ch_S1",
+    "object": "charge",
+    "created": "2026-03-01T10:00:00Z",
+    "amount": 2000,
+    "currency": "gbp",
+    "status": "succeeded",
+    "order_ref": "S-1",
+    "fee_details": [
+      { "type": "stripe_fee", "amount": 60 },
+      { "type": "application_fee", "amount": 100 }
+    ],
+    "net": 1840,
+    "available_on": "2026-03-05"
+  },
+  {
+    "id": "po_S1",
+    "object": "payout",
+    "created": "2026-03-06T04:00:00Z",
+    "amount": 1840,
+    "currency": "gbp",
+    "status": "paid",
+    "arrival_date": "2026-03-07",
+    "included_balance_transactions": ["ch_S1"]
+  },
+  {
+    "id": "po_S2",
+    "object": "payout",
+    "created": "2026-03-08T04:00:00Z",
+    "amount": 1840,
+    "currency": "gbp",
+    "status": "paid",
+    "arrival_date": "2026-03-09",
+    "included_balance_transactions": ["ch_S1"]
+  }
+]

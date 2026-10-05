@@ -1,0 +1,41 @@
+[
+  {
+    "id": "ch_D1",
+    "object": "charge",
+    "created": "2026-02-01T10:00:00Z",
+    "amount": 3000,
+    "currency": "gbp",
+    "status": "succeeded",
+    "order_ref": "T-D1",
+    "fee_details": [
+      { "type": "stripe_fee", "amount": 90 },
+      { "type": "application_fee", "amount": 150 }
+    ],
+    "net": 2760,
+    "available_on": "2026-02-01"
+  },
+  {
+    "id": "po_D1",
+    "object": "payout",
+    "created": "2026-02-02T04:00:00Z",
+    "amount": 2760,
+    "currency": "gbp",
+    "status": "paid",
+    "arrival_date": "2026-02-03",
+    "included_balance_transactions": ["ch_D1"]
+  },
+  {
+    "id": "dp_D1",
+    "object": "dispute",
+    "created": "2026-02-05T14:30:00Z",
+    "charge": "ch_D1",
+    "amount": 800,
+    "currency": "gbp",
+    "status": "needs_response",
+    "fee_details": [
+      { "type": "dispute_fee", "amount": 1500 }
+    ],
+    "net": -2300,
+    "available_on": "2026-02-05"
+  }
+]

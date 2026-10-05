@@ -1,0 +1,6 @@
+.env
+.env.local
+.env.*.local
+
+# api/ and web/ each carry their own more specific .gitignore for
+# vendor/, var/, node_modules/, dist/, etc.

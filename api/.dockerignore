@@ -1,0 +1,6 @@
+vendor/
+var/cache/
+var/log/
+var/share/
+.git
+*.log

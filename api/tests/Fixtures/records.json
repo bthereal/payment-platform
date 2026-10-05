@@ -1,0 +1,85 @@
+[
+  {
+    "id": "ch_A",
+    "object": "charge",
+    "created": "2026-01-01T10:00:00Z",
+    "amount": 1000,
+    "currency": "gbp",
+    "status": "succeeded",
+    "order_ref": "T-1",
+    "fee_details": [
+      { "type": "stripe_fee", "amount": 30 },
+      { "type": "application_fee", "amount": 50 }
+    ],
+    "net": 920,
+    "available_on": "2026-01-10"
+  },
+  {
+    "id": "ch_A",
+    "object": "charge",
+    "created": "2026-01-01T10:00:00Z",
+    "amount": 1000,
+    "currency": "gbp",
+    "status": "succeeded",
+    "order_ref": "T-1",
+    "fee_details": [
+      { "type": "stripe_fee", "amount": 30 },
+      { "type": "application_fee", "amount": 50 }
+    ],
+    "net": 920,
+    "available_on": "2026-01-10"
+  },
+  {
+    "id": "ch_B",
+    "object": "charge",
+    "created": "2026-01-01T11:00:00Z",
+    "amount": 2000,
+    "currency": "gbp",
+    "status": "succeeded",
+    "order_ref": "T-2",
+    "fee_details": [
+      { "type": "stripe_fee", "amount": 60 },
+      { "type": "application_fee", "amount": 100 }
+    ],
+    "net": 1840,
+    "available_on": "2026-01-10"
+  },
+  {
+    "id": "ch_C",
+    "object": "charge",
+    "created": "2026-01-02T09:00:00Z",
+    "amount": 1500,
+    "currency": "gbp",
+    "status": "succeeded",
+    "order_ref": "T-3",
+    "fee_details": [
+      { "type": "stripe_fee", "amount": 45 },
+      { "type": "application_fee", "amount": 75 }
+    ],
+    "net": 1380,
+    "available_on": "2026-01-10"
+  },
+  {
+    "id": "po_1",
+    "object": "payout",
+    "created": "2026-01-11T04:00:00Z",
+    "amount": 1840,
+    "currency": "gbp",
+    "status": "paid",
+    "arrival_date": "2026-01-12",
+    "included_balance_transactions": ["ch_B"]
+  },
+  {
+    "id": "re_1",
+    "object": "refund",
+    "created": "2026-01-14T12:00:00Z",
+    "charge": "ch_B",
+    "amount": 2000,
+    "currency": "gbp",
+    "fee_details": [
+      { "type": "application_fee", "amount": -100 }
+    ],
+    "net": -1840,
+    "available_on": "2026-01-15"
+  }
+]

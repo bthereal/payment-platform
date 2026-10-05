@@ -1,0 +1,21 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Genuinely stateless: both firewalls (security.yaml) are
+    # stateless: true, nothing under src/ ever touches SessionInterface,
+    # and json_login's CSRF protection (which is the one thing that would
+    # need a session) is never enabled. Disabling this outright, rather
+    # than leaving the default "started only if read/written" session
+    # available-but-unused, since an unused-but-enabled session is exactly
+    # the kind of thing that can quietly start actually being used later
+    # (e.g. a stray $request->getSession() call) without anyone noticing
+    # the API stopped being stateless.
+    session: false
+
+    #esi: true
+    #fragments: true
+
+when@test:
+    framework:
+        test: true

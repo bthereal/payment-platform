@@ -1,0 +1,5 @@
+# JSON spec only — no Swagger UI/Redoc route, since those render an HTML
+# page via Twig and this API deliberately has no templating engine.
+app.swagger:
+    path: /api/doc.json
+    controller: nelmio_api_doc.controller.swagger

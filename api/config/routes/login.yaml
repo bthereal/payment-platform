@@ -1,0 +1,9 @@
+# /api/login must be a real, routable path for json_login's check_path
+# (security.yaml, "login" firewall) to match against — otherwise Symfony's
+# router 404s before the firewall gets a chance to intercept the request.
+# The firewall's JsonLoginAuthenticator handles every real login request;
+# LoginController (src/Controller/LoginController.php) never actually runs.
+api_login:
+    path: /api/login
+    controller: App\Controller\LoginController
+    methods: [POST]

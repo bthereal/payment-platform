@@ -1,0 +1,71 @@
+# No Twig, so no Swagger UI/Redoc HTML page — see config/routes/nelmio_api_doc.yaml,
+# which registers only the JSON spec route (GET /api/doc.json). Point any
+# external tool (Swagger UI, Postman, Insomnia...) at that URL to browse it.
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Payments Dashboard API
+            description: >
+                JSON API behind the payments dashboard — login and the
+                dashboard summary. See the project README for the domain
+                model and design decisions behind these responses.
+            version: 1.0.0
+        components:
+            securitySchemes:
+                bearerAuth:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+            schemas:
+                LoginRequest:
+                    description: Credentials for POST /api/login.
+                    type: object
+                    required: [email, password]
+                    properties:
+                        email:
+                            type: string
+                            example: admin@example.com
+                        password:
+                            type: string
+                            example: password
+                LoginResponse:
+                    description: >-
+                        A bearer JWT, valid for 1 hour. Send it as
+                        `Authorization: Bearer <token>` on every other
+                        /api/* request.
+                    type: object
+                    required: [token]
+                    properties:
+                        token:
+                            type: string
+                            example: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...
+        security:
+            - bearerAuth: []
+        # POST /api/login has no annotated controller to hang OA attributes
+        # So this one path is hand-written here instead, merged into the generated spec
+        # alongside everything the bundle discovers from real controllers.
+        paths:
+            /api/login:
+                post:
+                    tags: [Auth]
+                    operationId: post_api_login
+                    security: [] # overrides the global bearerAuth requirement — this route issues the token, it doesn't consume one
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/LoginRequest'
+                    responses:
+                        '200':
+                            description: Login succeeded.
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/LoginResponse'
+                        '401':
+                            description: Unknown email or wrong password.
+    areas:
+        default:
+            path_patterns:
+                - ^/api

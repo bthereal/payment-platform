@@ -1,0 +1,27 @@
+[
+  {
+    "id": "ch_FA1",
+    "object": "charge",
+    "created": "2026-02-01T10:00:00Z",
+    "amount": 1000,
+    "currency": "gbp",
+    "status": "succeeded",
+    "order_ref": "FA-1",
+    "fee_details": [
+      { "type": "stripe_fee", "amount": 30 },
+      { "type": "application_fee", "amount": 50 }
+    ],
+    "net": 920,
+    "available_on": "2026-02-05"
+  },
+  {
+    "id": "po_FA1",
+    "object": "payout",
+    "created": "2026-02-06T04:00:00Z",
+    "amount": 920,
+    "currency": "gbp",
+    "status": "paid",
+    "arrival_date": "2099-01-01",
+    "included_balance_transactions": ["ch_FA1"]
+  }
+]
