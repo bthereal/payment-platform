@@ -20,6 +20,10 @@ final class LoginTest extends WebTestCase
     {
         $client = self::createClient();
         $this->truncateLedgerTables(self::getContainer()->get(EntityManagerInterface::class));
+        // Failed-login counters (security.yaml, login_throttling) persist in
+        // the filesystem cache, so they'd accumulate across tests and runs
+        // until the happy-path login itself got throttled. Start clean.
+        self::getContainer()->get('cache.rate_limiter')->clear();
 
         $application = new Application(self::bootKernel());
         $command = $application->find('app:seed-ledger');
@@ -129,5 +133,39 @@ final class LoginTest extends WebTestCase
         $payload = json_decode($content !== false ? $content : '', true, flags: \JSON_THROW_ON_ERROR);
         self::assertArrayHasKey('error', $payload);
         self::assertArrayNotHasKey('trace', $payload);
+    }
+
+    /**
+     * The sixth failure inside a minute is throttled (security.yaml,
+     * login_throttling max_attempts: 5) — and so is a *correct* password
+     * after that, which is the whole point: an attacker who guesses right
+     * on attempt six still doesn't get in. Answered as 429, not Lexik's
+     * default 401, so a client can tell lockout from a wrong password.
+     */
+    public function testRepeatedFailedLoginsAreThrottled(): void
+    {
+        $client = $this->seededClient();
+
+        $attempt = static function (string $password) use ($client): void {
+            $client->request(
+                'POST',
+                '/api/login',
+                server: ['CONTENT_TYPE' => 'application/json'],
+                content: json_encode(['email' => 'admin@example.com', 'password' => $password], \JSON_THROW_ON_ERROR),
+            );
+        };
+
+        for ($i = 0; $i < 5; ++$i) {
+            $attempt('not-the-password');
+            self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
+        }
+
+        $attempt('password');
+        self::assertResponseStatusCodeSame(Response::HTTP_TOO_MANY_REQUESTS);
+        self::assertResponseHasHeader('Retry-After');
+
+        $content = $client->getResponse()->getContent();
+        $payload = json_decode($content !== false ? $content : '', true, flags: \JSON_THROW_ON_ERROR);
+        self::assertStringStartsWith('Too many failed login attempts', $payload['message']);
     }
 }

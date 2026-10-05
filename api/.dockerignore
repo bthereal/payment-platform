@@ -4,3 +4,11 @@ var/log/
 var/share/
 .git
 *.log
+
+# Never bake local secrets into an image: `COPY . .` would otherwise ship the
+# generated JWT keypair and any local env overrides to wherever the image is
+# pushed. The entrypoint generates keys at container start instead.
+config/jwt/**/*.pem
+.env.local
+.env.local.php
+.env.*.local

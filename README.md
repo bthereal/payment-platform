@@ -105,6 +105,14 @@ A test seeds through each and asserts they produce identical totals.
 - Passwords are hashed; JWTs are short-lived (1 hour) and signed with a
   keypair generated per-deployment, never committed.
 - CORS is locked to the known frontend origin via env var, not wildcarded.
+- Login is throttled: 5 failed attempts per minute per email+IP (plus a
+  per-IP cap), answered with `429` and `Retry-After` rather than a 401 that
+  would look like a wrong password.
+- `docker compose` publishes every port on `127.0.0.1` only — the dev
+  services use public default credentials, and Docker's port publishing
+  bypasses host firewalls like `ufw`.
+- JWT keys and local `.env.*` overrides are gitignored *and* dockerignored,
+  so they can't end up in a commit or a built image.
 - All money is handled as integer minor units throughout - no floats, no
   rounding drift.
 

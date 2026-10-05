@@ -8,7 +8,12 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      # Every published port is bound to loopback, not 0.0.0.0: these are dev
+      # services with published default credentials (app/app,
+      # admin@example.com/password), and Docker's own iptables rules bypass
+      # host firewalls like ufw — an unbound mapping would expose them to
+      # anyone on the same network as the machine running this.
+      - "127.0.0.1:5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-app} -d ${POSTGRES_DB:-app}"]
       interval: 2s
@@ -26,7 +31,7 @@ services:
       APP_ENV: dev
       DATABASE_URL: "postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-app}@db:5432/${POSTGRES_DB:-app}?serverVersion=17&charset=utf8"
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
 
   web:
     build: ./web
@@ -38,7 +43,7 @@ services:
     environment:
       VITE_API_BASE_URL: http://localhost:8000
     ports:
-      - "5173:5173"
+      - "127.0.0.1:5173:5173"
 
 volumes:
   db_data:

@@ -21,6 +21,14 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            # Brute-force protection: 5 failed attempts per minute per
+            # email+IP pair, plus Symfony's built-in global per-IP cap
+            # (5x that) so cycling emails from one address doesn't
+            # sidestep it. The demo password is public anyway — this is
+            # here because a real login endpoint without it isn't credible.
+            login_throttling:
+                max_attempts: 5
+                interval: '1 minute'
         api:
             pattern: ^/api
             stateless: true

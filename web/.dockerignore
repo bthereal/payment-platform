@@ -1,3 +1,6 @@
 node_modules
 dist
 dist-ssr
+
+# Local env overrides (same rule as web/.gitignore) stay out of the image.
+*.local

@@ -13,6 +13,13 @@ export async function login(email: string, password: string): Promise<void> {
     body: JSON.stringify({ email, password }),
   });
 
+  // 429 is login throttling (see LoginThrottledListener) — telling a
+  // locked-out user their password is wrong would send them retrying a
+  // correct one that can't work until the window passes.
+  if (response.status === 429) {
+    throw new Error('Too many failed attempts — please wait a minute and try again.');
+  }
+
   if (!response.ok) {
     throw new InvalidCredentialsError('Incorrect email or password.');
   }
